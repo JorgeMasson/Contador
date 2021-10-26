@@ -11,7 +11,9 @@ import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
     var cuenta: Int = 0
+    var cosa: String? = "pichadas"
     lateinit var tv_cuenta: TextView
+    lateinit var et_pichadas: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val btn_resta: ImageButton = findViewById(R.id.btn_substract)
         val btn_borrar: ImageButton = findViewById(R.id.btn_delete)
         tv_cuenta = findViewById(R.id.tv_count)
-        val et_pichadas: EditText = findViewById(R.id.et_what)
+        et_pichadas = findViewById(R.id.et_what)
 
         btn_suma.setOnClickListener {
             cuenta++
@@ -65,7 +67,10 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
         val editor = sharedPref.edit()
+
+        cosa = et_pichadas.text.toString()
         editor.putInt("contador", cuenta)
+        editor.putString("cosa", cosa)
         editor.commit()
     }
 
@@ -74,6 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE)
         cuenta = sharedPref.getInt("contador", 0)
+        cosa = sharedPref.getString("cosa", "pichadas")
         tv_cuenta.setText("$cuenta")
+        et_pichadas.setText(cosa)
     }
 }
