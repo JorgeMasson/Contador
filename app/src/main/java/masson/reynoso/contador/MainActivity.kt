@@ -1,11 +1,13 @@
 package masson.reynoso.contador
 
 import android.content.Context
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
     var cuenta: Int = 0
@@ -29,6 +31,32 @@ class MainActivity : AppCompatActivity() {
         btn_resta.setOnClickListener {
             cuenta--
             tv_cuenta.setText("$cuenta")
+        }
+
+        btn_borrar.setOnClickListener {
+            val alertDialog: AlertDialog? = this?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setPositiveButton("borrar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            cuenta = 0
+                            tv_cuenta.setText("$cuenta")
+                        })
+                    setNegativeButton("cancelar",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            // User cancelled the dialog
+                        })
+                }
+                // Set other dialog properties
+                builder?.setMessage("¿Seguro que desea eliminar la cuenta?")
+                    .setTitle("ALERTA")
+
+
+                // Create the AlertDialog
+                builder.create()
+            }
+
+            alertDialog?.show()
         }
     }
 
